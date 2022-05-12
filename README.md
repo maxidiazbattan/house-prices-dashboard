@@ -1,4 +1,4 @@
-![house prices.jpg](https://github.com/maxidiazbattan/covid-dashboard/blob/main/assets/covid%20dash.png?raw=true)
+![house prices.jpg](https://github.com/maxidiazbattan/house-prices-dashboard/blob/main/assets/house%20prices.jpg)
 
 # House Prices Dashboard 
 In this repro I have created a dashboard with Dash, a Python framework that allows you to create web apps in pure Python, without the need to use JavaScript, HTML or CSS, for more info you can check the documentation here, https://dash.plotly.com/. 
