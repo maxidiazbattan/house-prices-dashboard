@@ -11,13 +11,11 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import numpy as np
 
+
 # =================================================================
-# Data Ingestion 
+# Data  
 # =================================================================
 df_data = pd.read_csv("dataset/house_prices.csv", index_col=0)
-
-mean_lat = df_data["LATITUDE"].mean()
-mean_long = df_data["LONGITUDE"].mean()
 
 df_data["size_m2"] = df_data["GROSS SQUARE FEET"] / 10.764
 df_data = df_data[df_data["YEAR BUILT"] > 0]
@@ -79,7 +77,7 @@ app.layout = dbc.Container([
                         
                         dcc.Dropdown(
                             options=[
-                                {'label': 'YEAR BUILT', 'value': 'YEAR BUILT'},
+                                {'label': 'LAND SQUARE FEET', 'value': 'LAND SQUARE FEET'},
                                 {'label': 'TAX CLASS', 'value': 'TAX CLASS AT TIME OF SALE'},
                                 {'label': 'SALE PRICE', 'value': 'SALE PRICE'},
                             ],
@@ -87,26 +85,25 @@ app.layout = dbc.Container([
                             id="dropdown-color"), ],width={'size':3}),
 
          dbc.Col([
-                  dcc.Graph(id="map-graph", figure={},)# style={'height': '70vh','width':'155vh'}),
+                  dcc.Graph(id="map-graph", figure={},)
                  
          ], width={'size':9}),
 
-    ], className="mb-1"),
+    ], className="mb-0"),
 
 
     dbc.Row([
          dbc.Col([
-                  dcc.Graph(id="hist-graph", figure={}, style={'height': '30vh', 'width':'60vh'}),
+                  dcc.Graph(id="hist-graph", figure={}, style={'height': '150px'}),
                   ], width={'size':3, 'offset': 3}),
 
         dbc.Col([
-                  dcc.Graph(id="bar-graph", figure={}, style={'height': '30vh', 'width':'100vh'}),
+                  dcc.Graph(id="bar-graph", figure={}, style={'height': '150px'}),
          
-                ], width={'size':5}),
+                ], width={'size':6,}),
          ], className="mt-0"),
 
 ], fluid=True)
-
 
 
 # ========================================================
@@ -145,14 +142,7 @@ def update_hist(location, square_size, color):
                       bearing=30,
                   ))
     
-    color_scale = px.colors.sequential.GnBu
-    df_quantiles = df_data[color].quantile(np.linspace(0, 1, len(color_scale))).to_frame()
-    df_quantiles = round((df_quantiles - df_quantiles.min()) / (df_quantiles.max() - df_quantiles.min()) * 10000) / 10000
-    df_quantiles.iloc[-1] = 1
-    df_quantiles["colors"] = color_scale
-    df_quantiles.set_index(color, inplace=True)
-    color_scale = [[i, j] for i, j in df_quantiles["colors"].iteritems()]
-
+    color_scale = px.colors.sequential.Plasma
 
     map_fig.update_coloraxes(colorscale=color_scale)
     map_fig.update_layout(coloraxis_showscale=False)
@@ -160,7 +150,7 @@ def update_hist(location, square_size, color):
 
     # ==========================
     # Histogram
-    hist_fig = px.histogram(df_intermediate, x=color, opacity=0.75)
+    hist_fig = px.histogram(df_intermediate, x=color, opacity=0.75, color_discrete_sequence=color_scale)
     hist_fig.update_layout(margin=dict(t=100, b=0, l=70, r=40),
                   hovermode="x unified", 
                   template="plotly_dark", 
@@ -177,7 +167,7 @@ def update_hist(location, square_size, color):
     df_intermediate['NEIGHBORHOOD'] = df_intermediate['NEIGHBORHOOD'].str.split('-').apply(lambda x: x[0])
     neigh = df_intermediate.groupby('NEIGHBORHOOD')[color].mean().sort_values(ascending=False).astype(int)
 
-    bar_fig = px.bar(data_frame=neigh.iloc[0:10], x=neigh.index[0:10], y=color)
+    bar_fig = px.bar(data_frame=neigh.iloc[0:10], x=neigh.index[0:10], y=color, color_discrete_sequence=color_scale)
     bar_fig.update_layout(margin=dict(t=100, b=0, l=70, r=40),
                   hovermode="x unified", 
                   template="plotly_dark", 
