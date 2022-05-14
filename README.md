@@ -1,4 +1,4 @@
-![house prices dashboard.png](https://github.com/maxidiazbattan/house-prices-dashboard/blob/main/assets/house%20prices%20dashboard.)
+![house prices.png](https://github.com/maxidiazbattan/house-prices-dashboard/blob/main/assets/house%20prices.png)
 
 
 # House Prices Dashboard 
