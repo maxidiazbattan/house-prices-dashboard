@@ -95,12 +95,12 @@ app.layout = dbc.Container([
     dbc.Row([
          dbc.Col([
                   dcc.Graph(id="hist-graph", figure={}, style={'height': '150px'}),
-                  ], width={'size':3, 'offset': 3}),
+                  ], width={'size':4, 'offset': 3}),
 
         dbc.Col([
                   dcc.Graph(id="bar-graph", figure={}, style={'height': '150px'}),
          
-                ], width={'size':6,}),
+                ], width={'size':5,}),
          ], className="mt-0"),
 
 ], fluid=True)
@@ -159,7 +159,7 @@ def update_hist(location, square_size, color):
                   paper_bgcolor='rgba(0,0,0,0)',
                   plot_bgcolor='rgba(0,0,0,0)',
                   title_font=dict(size=15, color='#a5a7ab', family="Lato, sans-serif"),
-                  font=dict(color='#8a8d93'))
+                  font=dict(color='#8a8d93', size=6))
 
 
     # ==========================
@@ -176,7 +176,7 @@ def update_hist(location, square_size, color):
                   paper_bgcolor='rgba(0,0,0,0)',
                   plot_bgcolor='rgba(0,0,0,0)',
                   title_font=dict(size=15, color='#a5a7ab', family="Lato, sans-serif"),
-                  font=dict(color='#8a8d93',size=5))
+                  font=dict(color='#8a8d93', size=5))
 
 
     return map_fig, hist_fig, bar_fig
