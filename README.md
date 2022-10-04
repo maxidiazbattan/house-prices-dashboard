@@ -2,9 +2,7 @@
 
 
 # House Prices Dashboard 
-In this repro I have created a dashboard with Dash, a Python framework that allows you to create web apps in pure Python, without the need to use JavaScript, HTML or CSS, for more info you can check the documentation here, https://dash.plotly.com/. 
-In the following link you can see it, https://nychousepricesdashboard.herokuapp.com/ (it takes a bit to load the first time because it's dorment at Heroku Servers). I hope you like it, and the instructions to use it are below.
-
+This is another dashboard made with Dash, a Python framework that allows you to create web apps in pure Python, the data is from this Kaggle dataset, https://www.kaggle.com/datasets/new-york-city/nyc-property-sales, and was cleaned and filtered with pandas. You can check the dashboard at the following link, https://nychousepricesdashboard.herokuapp.com/ (it takes a bit to load the first time because it's dormant at Heroku Servers). I hope you like it, and the instructions to use it are below.
 
 # Heroku Deployment
 
