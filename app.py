@@ -13,8 +13,7 @@ import numpy as np
 
 
 # =================================================================
-# Data  
-# =================================================================
+# Data 
 df_data = pd.read_csv("dataset/house_prices.csv", index_col=0)
 
 df_data["size_m2"] = df_data["GROSS SQUARE FEET"] / 10.764
@@ -47,6 +46,8 @@ list_of_locations = {
 
 slider_size = [20, 100, 1000, 10000]
 
+# =================================================================
+# App
 app = dash.Dash(__name__,external_stylesheets = [dbc.themes.CYBORG]) 
 server = app.server
 
