@@ -1,19 +1,22 @@
-#Importing the libraries.
+# Importing the libraries.
+
+# dash & dash components
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
-import plotly.graph_objs as go
+# plotly
 import plotly.express as px
+import plotly.graph_objs as go
 from dash.dependencies import Input, Output
 
+# data handling
 import pandas as pd
 import numpy as np
 
-
 # =================================================================
-# Data 
+# data 
 df_data = pd.read_csv("dataset/house_prices.csv", index_col=0)
 
 df_data["size_m2"] = df_data["GROSS SQUARE FEET"] / 10.764
@@ -47,10 +50,9 @@ list_of_locations = {
 slider_size = [20, 100, 1000, 10000]
 
 # =================================================================
-# App
+# app
 app = dash.Dash(__name__,external_stylesheets = [dbc.themes.CYBORG]) 
 server = app.server
-
 
 app.layout = dbc.Container([
     dbc.Row([
@@ -92,7 +94,6 @@ app.layout = dbc.Container([
 
     ], className="mb-0"),
 
-
     dbc.Row([
          dbc.Col([
                   dcc.Graph(id="hist-graph", figure={}, style={'height': '150px'}),
@@ -106,9 +107,8 @@ app.layout = dbc.Container([
 
 ], fluid=True)
 
-
 # ========================================================
-# Callbacks 
+# callbacks 
 @app.callback([Output('map-graph', 'figure'), 
               Output('hist-graph', 'figure'),
               Output('bar-graph', 'figure')
@@ -130,9 +130,8 @@ def update_hist(location, square_size, color):
         df_intermediate = df_data[df_data["BOROUGH"] == location] if location != 0 else df_data.copy()
         df_intermediate = df_intermediate[df_intermediate["size_m2"] <= size_limit]
 
-
     # ==========================
-    # Map
+    # map
 
     map_fig=px.scatter_mapbox(df_intermediate, lat="LATITUDE", lon="LONGITUDE", color=color, 
                      size="size_m2", size_max=20, zoom=10, opacity=0.4)
@@ -148,9 +147,8 @@ def update_hist(location, square_size, color):
     map_fig.update_coloraxes(colorscale=color_scale)
     map_fig.update_layout(coloraxis_showscale=False)
 
-
     # ==========================
-    # Histogram
+    # histogram
     hist_fig = px.histogram(df_intermediate, x=color, opacity=0.75, color_discrete_sequence=color_scale)
     hist_fig.update_layout(margin=dict(t=100, b=0, l=70, r=40),
                   hovermode="x unified", 
@@ -164,7 +162,7 @@ def update_hist(location, square_size, color):
 
 
     # ==========================
-    # Bar
+    # bar
     df_intermediate['NEIGHBORHOOD'] = df_intermediate['NEIGHBORHOOD'].str.split('-').apply(lambda x: x[0])
     neigh = df_intermediate.groupby('NEIGHBORHOOD')[color].mean().sort_values(ascending=False).astype(int)
 
@@ -178,7 +176,6 @@ def update_hist(location, square_size, color):
                   plot_bgcolor='rgba(0,0,0,0)',
                   title_font=dict(size=15, color='#a5a7ab', family="Lato, sans-serif"),
                   font=dict(color='#8a8d93', size=5))
-
 
     return map_fig, hist_fig, bar_fig
 
